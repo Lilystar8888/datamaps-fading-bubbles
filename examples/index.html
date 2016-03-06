@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <title>Fading Bubbles Plugin</title>
+
+        <!-- styles -->
+        <style>
+            #map {
+                height:500px;
+                padding:20px 0px 30px;
+            }
+        </style>
+    </head>
+	<body>
+        
+		<!-- map container -->
+		<div id="map"></div>
+	
+		<!-- scripts -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
+		<script src="js/datamaps.world.min.js"></script>
+        <script src="../src/datamaps.fading-bubbles.js"></script>
+		
+		<script>
+		
+            // map options
+            var options = {
+                element: document.getElementById('map'),
+                fills: {
+                    defaultFill: '#2c3e50'
+                },
+                geographyConfig: {
+
+                    highlightFillColor: 'rgba(52, 73, 94, .9)',
+                    highlightBorderOpacity: 0
+                },
+                scope: 'world',
+                projection: 'orthographic',
+                projectionConfig: {
+                    rotation: [97, -30]
+                }
+            };
+
+            // initiate the map
+            var map = new Datamap(options);
+
+            // add the grid behind the globe
+            map.graticule();
+                        
+            // add the fading bubbles plugin
+            map.addPlugin('fadingBubbles', function(layer, data) {
+
+                var self = this;
+
+                var className = 'fadingBubble';
+
+                var bubbles = layer
+                    .selectAll(className)
+                    .data(data, JSON.stringify)
+
+                bubbles.enter()
+                    .append('circle')
+                    .attr('class', className)
+                    .attr('cx', function(datum) {
+
+                        return self.latLngToXY(datum.latitude, datum.longitude)[0];
+
+                    })
+                    .attr('cy', function(datum) {
+
+                        return self.latLngToXY(datum.latitude, datum.longitude)[1];
+
+                    })
+                    .attr('r', 1)
+                    .style('fill', function(d, i) {
+
+                        if (self.options.fills && d.fillKey) {
+
+                            if (self.options.fills[d.fillKey]) {
+                                return self.options.fills[d.fillKey];
+                            }
+                        }
+                        return 'red';
+
+                    })
+                    .style('stroke', function(d, i) {
+
+                        if (self.options.fills && d.fillKey) {
+
+                            if (self.options.fills[d.fillKey]) {
+                                return self.options.fills[d.fillKey];
+                            }
+                        }
+                        return 'red';
+                    })
+                    .transition()
+                    .duration(2000)
+                    .ease(Math.sqrt)
+                    .attr('r', function(datum) {
+                        return datum.magnitude ? datum.magnitude * 20 : 22;
+                    })
+                    .style('fill-opacity', 1e-6)
+                    .style('stroke-opacity', 1e-6)
+                    .remove()
+
+            });
+            
+            // fetch the data
+            d3.json("data/bubbles.json", function(error, json) {
+
+                if (error) {
+                    return console.warn(error);
+                }
+
+                drawBubbles(json);
+
+                var sleep = (json.length - 1) * 100;
+
+                setInterval(function() {
+                    drawBubbles(json);
+                }, sleep);
+
+            });
+
+            
+            // draw the fading bubbles at staggered intervals
+            drawBubbles = function(data) {
+
+                data.forEach(function(datum, index) {
+
+                    setTimeout(function() {
+
+                        map.fadingBubbles([datum]);
+
+                    }, index * 100);
+
+                });
+
+            }
+
+		</script>
+	</body>
+</html>
