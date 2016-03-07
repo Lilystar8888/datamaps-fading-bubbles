@@ -14,7 +14,7 @@ First, include d3, topojson, datamaps, and the fading bubbles plugin in your pag
 Now, add a container for the map to be rendered on.
 
 ```html
-<div id="map"></div>
+<div id="map"></div> 
 ```
 
 Finally, initiate the map and add the fading bubbles plugin.
@@ -63,4 +63,4 @@ var data = [
 map.fadingBubbles(data);
 ```
   
-The `latitude` and `longitude` properties control tell the plugin where to add the bubbles, while the `magnitude` property controls the size of the fading bubble.
+The `latitude` and `longitude` properties control tell the plugin where to add the bubbles, while the `magnitude` property controls the size of the fading bubble. More options will be coming soon, so please check back or contribute!
