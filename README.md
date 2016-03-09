@@ -1,6 +1,6 @@
 # DataMaps - Fading Bubbles Plugin
 
-The fading bubbles plugin can be used to visualize location-based, time-lapse data on a DataMap. An example of this plugin can be viewed on this [block](http://bl.ocks.org/mitch-seymour/ba096bc96ff6fe6e66c5).
+The fading bubbles plugin can be used to visualize location-based, time-lapse data on a DataMap. An example of this plugin can be viewed on this [block](http://bl.ocks.org/mitch-seymour/ba096bc96ff6fe6e66c5). This plugin was inspired by some geographic visualizations I designed for Macys.
 
 ## Basic Usage ##
 First, include d3, topojson, datamaps, and the fading bubbles plugin in your page.
