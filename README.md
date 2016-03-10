@@ -63,4 +63,4 @@ var data = [
 map.fadingBubbles(data);
 ```
   
-The `latitude` and `longitude` properties control tell the plugin where to add the bubbles, while the `magnitude` property controls the size of the fading bubble. More options will be coming soon, so please check back or contribute!
+The `latitude` and `longitude` properties tell the plugin where to add the bubbles, while the `magnitude` property controls the size of the fading bubble. More options will be coming soon, so please check back or contribute! A working example can be viewed [here](http://bl.ocks.org/mitch-seymour/ba096bc96ff6fe6e66c5).
